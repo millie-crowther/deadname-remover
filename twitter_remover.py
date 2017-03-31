@@ -1,10 +1,6 @@
 import tweepy
 import os
 
-# access tokens for @HackathonAcct
-#access_token = "847744745090686976-vTf0XUilEVh3ashprVGEc3Rc8ohdZco"
-#access_token_secret = "DgbIYYQyuGQR40pjfb0ZWKiPrIdVNlQuHNAvFqCARnxO2"
-
 #identify ourselves as registered app
 auth = tweepy.OAuthHandler("kGx0VVO7HR9rTrKCGOne7DJDn", "bniWiIqupj9OzQRoKAl6xtcAeAtrNbW6wesKNvD9iXX25xjDUS")
 
@@ -22,7 +18,6 @@ api = tweepy.API(auth)
 #delete a users own tweets
 first_name = raw_input("Please enter your old first name\n>").upper()
 last_name = raw_input("Please enter your old last name\n>").upper()
-new_name = raw_input("Please enter your new full name\n>")
 handle = raw_input("Please enter your old twitter handle\n>").upper()
 
 full_name = first_name + " " + last_name
@@ -41,17 +36,11 @@ for tweet in public_tweets:
         api.destroy_status(tweet.id)
 
     elif first_name in tweet.text.upper():
-        print("Old first name found. Do you want to delete this tweet? [y/n]")
+        print("Old first name found only. Do you want to delete this tweet? [y/n]")
         print(tweet.text)
         response = raw_input(">")
         if response == 'y':
             api.destroy_status(tweet.id)
-            print("Deleting the tweet")
-        else:
-            print("Ignoring the tweet")
-
-    else:
-        print("Ignoring this tweet: " + tweet.text)
 
 #ask other users to delete tweets
 print("Searching your followers' tweets...")
@@ -64,4 +53,18 @@ for follower in followers:
             print("Asking @" + name + " to delete this tweet because it contained your old name: ")
             print(follower_tweet.text + "\n")
             api.send_direct_message(screen_name=name, text=('Please delete this tweet because it contains my old name: '))
+            api.send_direct_message(screen_name=name, text=('http://twitter.com/' + name + "/status/" + follower_tweet.id_str))
+
+        elif first_name in tweet.text.upper():
+            print("Old first name found only. Do you want to ask @" + name + " to delete this tweet? [y/n]")
+            print(follower_tweet.text)
+            response = raw_input(">")
+            if response == 'y':
+                api.send_direct_message(screen_name=name, text=('Please delete this tweet because it contains my old first name: '))
+                api.send_direct_message(screen_name=name, text=('http://twitter.com/' + name + "/status/" + follower_tweet.id_str))
+
+        elif handle in follower_tweet.text.upper():
+            print("Asking @" + name + " to delete this tweet because it contained your old handle: ")
+            print(follower_tweet.text + "\n")
+            api.send_direct_message(screen_name=name, text=('Please delete this tweet because it contains my old handle: '))
             api.send_direct_message(screen_name=name, text=('http://twitter.com/' + name + "/status/" + follower_tweet.id_str))
