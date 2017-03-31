@@ -57,7 +57,7 @@ for follower in followers:
             print("Asking @" + name + " to delete this tweet because it contained your old name: ")
             print(follower_tweet.text)
             api.send_direct_message(screen_name = name, text = 'Please delete this tweet because it contains my old name: ')
-            api.send_direct_message(screen_name = name, text = tweet_url
+            api.send_direct_message(screen_name = name, text = tweet_url)
 
         #ask to delete tweets with your first name only - require confirmation
         elif first_name in tweet.text.upper():
