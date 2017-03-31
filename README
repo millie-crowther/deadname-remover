@@ -1,0 +1,41 @@
+# Deadname Remover Program For Twitter 
+
+This is a program that scours your Twitter profile and deletes tweets that mention your
+specified words or phrases, with the attempt to make a program that effectively and 
+efficiently removes your deadname from your Twitter profile as much as possible.
+
+Written in Python by a team at Trans*Code London on 31st March (and hopefully continued
+on in the future, but, y'know, we're writing the README here), it uses Tweepy to 
+interact with Twitter. 
+
+Currently, this is the only way to get the program working, although we're working on
+creating a website to interact with the program to make this easy and effective.
+
+##Changes likely to be made
+
+It needs a real cleanup. Like, a real good cleanup. The team initially was split across 
+a couple of sides to the project, but ended up focusing in on this (tip: don't bother 
+trying to work with the Facebook API unless you're doing marketing or you're King, and
+don't even try to gather information from Google searches, they're not big fans).
+
+It also needs a fair amount more work on making it pretty and effective.
+
+Hosting it permanently in an efficient manner.
+
+Ways around call limiter. 
+
+Just loads more cleanup.
+
+##Where the interesting stuff is
+
+Everything is in twitter_remover.py for the interesting stuff. 
+
+Credits:
+
+Tim Baros
+Millie Crowther
+Shana Dacres
+Hannah Dwan
+David Fletcher
+Dan Pelensky
+Becks Simpson
