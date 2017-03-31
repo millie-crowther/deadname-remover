@@ -22,6 +22,7 @@ api = tweepy.API(auth)
 #delete a users own tweets
 first_name = raw_input("Please enter your old first name\n>").upper()
 last_name = raw_input("Please enter your old last name\n>").upper()
+new_name = raw_input("Please enter your new full name\n>")
 handle = raw_input("Please enter your old twitter handle\n>").upper()
 
 full_name = first_name + " " + last_name
@@ -31,12 +32,12 @@ public_tweets = tweepy.Cursor(api.user_timeline).items()
 for tweet in public_tweets:
     if full_name in tweet.text.upper():
         print("Deleting this tweet because it contained your old name: ")
-        print(tweet.text)
+        print(tweet.text + "\n")
         api.destroy_status(tweet.id)
 
     elif handle in tweet.text.upper():
         print("Deleting this tweet becasuse it contained your old handle: ")
-        print(tweet.text)
+        print(tweet.text + "\n")
         api.destroy_status(tweet.id)
 
     elif first_name in tweet.text.upper():
@@ -54,3 +55,13 @@ for tweet in public_tweets:
 
 #ask other users to delete tweets
 print("Searching your followers' tweets...")
+followers = tweepy.Cursor(api.followers).items()
+for follower in followers:
+    name = follower.screen_name
+    follower_tweets = api.user_timeline(screen_name=name, count=200)
+    for follower_tweet in follower_tweets:
+        if full_name in follower_tweet.text.upper():
+            print("Asking @" + name + " to delete this tweet because it contained your old name: ")
+            print(follower_tweet.text + "\n")
+            api.send_direct_message(screen_name=name, text=('Please delete this tweet because it contains my old name: '))
+            api.send_direct_message(screen_name=name, text=('http://twitter.com/' + name + "/status/" + follower_tweet.id_str))
