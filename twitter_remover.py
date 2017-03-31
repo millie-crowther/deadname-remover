@@ -3,6 +3,7 @@ import os
 from flask import Flask, jsonify, json, render_template
 import requests
 import urllib
+import webbrowser
 
 twitter_remover = Flask(__name__)
 global auth
@@ -13,10 +14,10 @@ def index():
 
 @twitter_remover.route("/formDetails.html", methods=['GET'])
 def get_data():
-    auth = tweepy.OAuthHandler("kGx0VVO7HR9rTrKCGOne7DJDn", "bniWiIqupj9OzQRoKAl6xtcAeAtrNbW6wesKNvD9iXX25xjDUS")
-    return requests.get(auth.get_authorization_url()).content
+    auth = tweepy.OAuthHandler("nPqwH8aOZUR5VUvKPMQdn0yKG", "wlBkWssQUqw828LegUjBSuK0KuijoqfVeYeHU1TDHsUIWfJhiR")
+    webbrowser.open_new_tab(auth.get_authorization_url())
+    return render_template("formDetails.html")
 
-@twitter_remover.route("/oauth_token.html", methods=['POST'])
 def run():
     access_token = request.json
     #identify ourselves as registered app
