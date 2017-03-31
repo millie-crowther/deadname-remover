@@ -1,21 +1,37 @@
 import tweepy
 import os
 from flask import Flask, jsonify, json, render_template
+import requests
+import urllib
 
 twitter_remover = Flask(__name__)
+global auth
 
 @twitter_remover.route("/")
 def index():
     return render_template("index.html")
 
-def run():
-    #identify ourselves as registered app
+@twitter_remover.route("/formDetails.html", methods=['GET'])
+def get_data():
     auth = tweepy.OAuthHandler("kGx0VVO7HR9rTrKCGOne7DJDn", "bniWiIqupj9OzQRoKAl6xtcAeAtrNbW6wesKNvD9iXX25xjDUS")
+    return requests.get(auth.get_authorization_url()).content
+
+@twitter_remover.route("/oauth_token.html", methods=['POST'])
+def run():
+    access_token = request.json
+    #identify ourselves as registered app
+    #auth = tweepy.OAuthHandler("kGx0VVO7HR9rTrKCGOne7DJDn", "bniWiIqupj9OzQRoKAl6xtcAeAtrNbW6wesKNvD9iXX25xjDUS", "localhost:8080")
 
     # authorise the users account
-    os.system("firefox " + auth.get_authorization_url())
-    pin = raw_input("Please input the PIN given to you in your browser\n>")
-    access_token, access_token_secret = auth.get_access_token(verifier=pin)
+    #redirect_url = auth.get_authorization_url()
+
+    #os.system("firefox " + redirect_url)
+    #pin = raw_input("Please input the PIN given to you in your browser\n>")
+    #access_token, access_token_secret = auth.get_access_token(verifier=pin)
+
+    #urllib.urlopen(redirect_url)
+    access_token = auth.access_token
+    access_token_secret = auth.access_token_secret
 
     #initialise the API
     api = tweepy.API(auth)
@@ -85,4 +101,4 @@ def run():
 
 
 if __name__ == "__main__":
-    twitter_remover.run()
+    twitter_remover.run(host='10.22.4.101', port=8080, debug=True)
